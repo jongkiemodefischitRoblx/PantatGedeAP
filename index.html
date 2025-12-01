@@ -1,46 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Server Lock [Beta]</title>
+<title>ZxnnxSpectra Panel</title>
 <style>
-body { font-family: Arial; padding: 20px; }
+body {
+    background:#000;
+    color:#0f0;
+    font-family: monospace;
+    padding:20px;
+}
+#screen {
+    width:100%;
+    height:300px;
+    background:#020202;
+    border:1px solid #0f0;
+    padding:10px;
+    overflow:auto;
+}
 button {
-  padding: 12px 20px;
-  font-size: 18px;
-  border: none;
-  background: red;
-  color: white;
-  border-radius: 8px;
+    padding:10px 20px;
+    background:#0f0;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
 }
 </style>
 </head>
 <body>
 
-<h1>[Beta] Lock Panel</h1>
-
-<button onclick="lockServer()">Lock Server A</button>
-
-<p id="msg"></p>
+<h2>ZxnnxSpectra Panel (Website B)</h2>
+<div id="screen">> Ready…</div>
+<button onclick="lockServer()">/lockserver</button>
 
 <script>
-function lockServer() {
+function printLine(txt){
+    document.getElementById("screen").innerHTML += "<br>" + txt;
+}
+
+function lockServer(){
+    printLine("> Executing /lockserver…");
+    setTimeout(()=>printLine("Entering Files... (1/100)"),500);
+
+    let i = 1;
+    let loading = setInterval(()=>{
+        i++;
+        if(i <= 100){
+            printLine("Processing... (" + i + "/100)");
+        } else {
+            clearInterval(loading);
+            finishLock();
+        }
+    }, 40);
+}
+
+function finishLock(){
+    printLine("✔ SUCCESS LOCKED SERVER 🔒");
+    printLine("WAIT 13 HOURS…");
+    printLine("HACKED BY ZxnnxSpectra");
+    printLine("——————————————");
+    printLine("[ Tebus ] t.me/ZxnnxSpectra");
+
+    // Kirim status locked ke localhost Website A
     fetch("http://localhost:8080/lockserver", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
+        method:"POST",
+        headers: { "Content-Type": "application/json" },
         body: "{}"
     })
-    .then(res => res.json())
-    .then(x => {
-        document.getElementById("msg").innerText = 
-            "Server A berhasil di-lock!";
-    })
-    .catch(() => {
-        document.getElementById("msg").innerText = 
-            "Gagal: Pastikan localhost A sedang ON!";
-    });
+    .then(()=> printLine("Localhost updated → SERVER LOCKED"))
+    .catch(()=> printLine("Gagal: Pastikan Website A sedang ON!"));
 }
 </script>
-
 </body>
 </html>
