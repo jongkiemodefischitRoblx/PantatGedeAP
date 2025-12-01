@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Panel Lock Server</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+button {
+  padding: 12px 20px;
+  font-size: 18px;
+  border: none;
+  background: red;
+  color: white;
+  border-radius: 8px;
+}
+</style>
+</head>
+<body>
+
+<h1>Website B – Panel Lock Server</h1>
+
+<button onclick="lockServer()">Lock Server A</button>
+
+<p id="msg"></p>
+
+<script>
+function lockServer() {
+    fetch("http://localhost:8080/lockserver", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: "{}"
+    })
+    .then(res => res.json())
+    .then(x => {
+        document.getElementById("msg").innerText = 
+            "Server A berhasil di-lock!";
+    })
+    .catch(() => {
+        document.getElementById("msg").innerText = 
+            "Gagal: Pastikan localhost A sedang ON!";
+    });
+}
+</script>
+
+</body>
+</html>
